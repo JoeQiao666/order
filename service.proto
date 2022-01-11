@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/http.proto";
+
+package order;
+
+message OrderId {
+    int32 orderId = 1;
+}
+
+message OrderData {
+    OrderId data = 1;
+}
+
+message Orders {
+    repeated OrderData orders = 1;
+}
+
+service Order {
+    rpc CreateOrder(OrderData) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/neworder",
+            body: "*",
+        };
+    }
+
+    rpc GetOrder(google.protobuf.Empty) returns (Orders) {
+        option (google.api.http) = {
+            get: "/order",
+            response_body: "orders"
+          };
+    }
+}
