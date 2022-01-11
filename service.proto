@@ -1,7 +1,6 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
-import "google/api/http.proto";
+import "google/api/annotations.proto";
 
 package order;
 
@@ -17,15 +16,19 @@ message Orders {
     repeated OrderData orders = 1;
 }
 
+message Empty {
+
+}
+
 service Order {
-    rpc CreateOrder(OrderData) returns (google.protobuf.Empty) {
+    rpc CreateOrder(OrderData) returns (Empty) {
         option (google.api.http) = {
             post: "/neworder",
             body: "*",
         };
     }
 
-    rpc GetOrder(google.protobuf.Empty) returns (Orders) {
+    rpc GetOrder(Empty) returns (Orders) {
         option (google.api.http) = {
             get: "/order",
             response_body: "orders"
